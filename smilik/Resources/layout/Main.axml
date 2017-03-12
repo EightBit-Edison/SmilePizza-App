@@ -5,27 +5,48 @@
     android:layout_height="match_parent"
     android:paddingLeft="20dp"
     android:paddingRight="20dp"
-    android:paddingTop="70dp">
+    android:paddingTop="5dp"
+    android:background="@drawable/bg">
     <ImageView
-        android:src="@android:drawable/sym_def_app_icon"
+        android:src="@drawable/authlogo"
         android:layout_width="match_parent"
-        android:layout_height="106.5dp"
-        android:id="@+id/imageView1" />
+        android:layout_height="310dp"
+        android:id="@+id/imageView1"
+        android:cropToPadding="true"
+        android:scaleType="fitCenter" />
     <EditText
         android:inputType="number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText1"
-        android:hint="Логин" />
+        android:hint="Логин"
+        android:textColorHint="@android:color/black"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:alpha="0.6"
+        android:background="@android:color/holo_orange_light"
+        android:padding="10dp"
+        android:layout_marginTop="5dp" />
     <EditText
         android:inputType="numberPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText2"
-        android:hint="Пароль" />
+        android:hint="Пароль"
+        android:textColorHint="@android:color/black"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:alpha="0.6"
+        android:background="@android:color/holo_orange_light"
+        android:padding="10dp"
+        android:layout_marginTop="5dp" />
     <Button
         android:id="@+id/myButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Войти" />
+        android:text="ВОЙТИ"
+        android:background="#6eb460"
+        android:padding="15dp"
+        android:capitalize="none"
+        android:layout_marginTop="5dp" />
 </LinearLayout>

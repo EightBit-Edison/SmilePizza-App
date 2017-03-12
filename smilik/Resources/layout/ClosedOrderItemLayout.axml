@@ -14,13 +14,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orderid"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black" />
         <TextView
             android:text="Small Text"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/orderaddress"
-            android:layout_margin="5dp" />
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black" />
     </LinearLayout>
 </LinearLayout>

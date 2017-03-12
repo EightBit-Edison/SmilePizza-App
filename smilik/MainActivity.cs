@@ -52,8 +52,8 @@ namespace smilik
 						wc.Headers["Content-Type"] = "application/json";
 						string HtmlResult = wc.UploadString(URL, myParameters);
 					}
-
-					URL = "http://13.65.148.113/api/Driver/" + login.Text;
+					
+					string URL = "http://13.65.148.113/api/Driver/" + login.Text;
 
 					using (var webClient = new System.Net.WebClient())
 					{
