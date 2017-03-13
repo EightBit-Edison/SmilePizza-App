@@ -53,7 +53,7 @@ namespace smilik
 						string HtmlResult = wc.UploadString(URL, myParameters);
 					}
 					
-					string URL = "http://13.65.148.113/api/Driver/" + login.Text;
+					URL = "http://13.65.148.113/api/Driver/" + login.Text;
 
 					using (var webClient = new System.Net.WebClient())
 					{
