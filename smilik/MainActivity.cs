@@ -4,55 +4,64 @@ using Android.OS;
 using Android.Content;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Net;
 using System.Threading;
-using Android.Locations;
-using Plugin.Geolocator;
 
 namespace smilik
 {
 	[Activity(Label = "Смайлик Курьер", MainLauncher = true, Icon = "@drawable/icon")]
-	public class MainActivity : Activity
+	public class MainActivity : GeoManager
 	{
-
+		
 		protected override void OnCreate(Bundle savedInstanceState)
 		{
 			base.OnCreate(savedInstanceState);
-
-			// Set our view from the "main" layout resource
 			SetContentView(Resource.Layout.Main);
-			// Get our button from the layout resource,
-			// and attach an event to it
+			
 			Button button = FindViewById<Button>(Resource.Id.myButton);
 
 			button.Click += delegate { 
 				TextView login = FindViewById<TextView>(Resource.Id.editText1);
 				TextView password = FindViewById<TextView>(Resource.Id.editText2);
 
+				
 				var progressDialog = ProgressDialog.Show(this, "Подождите...", "Осуществляется вход...", true);
 				try
 				{
 					new Thread(new ThreadStart(delegate
-				{	var locator = CrossGeolocator.Current;
-					locator.DesiredAccuracy = 50;
-					var gps = locator.GetPositionAsync(timeoutMilliseconds: 15000);
-					gps.Wait();
-					var position = gps.Result;
-					string URL = "http://13.65.148.113/api/Geopositions";
-					using (var wc = new System.Net.WebClient())
 					{
-						Geoposition geo = new Geoposition();
-						//geo.geoid = Guid.NewGuid();
-						geo.driver = Convert.ToInt32(login.Text);
-						geo.lattitude = position.Latitude.ToString();
-						geo.longitude = position.Longitude.ToString();
-						var json = JsonConvert.SerializeObject(geo);
-						string myParameters = json;
-						wc.Headers["Content-Type"] = "application/json";
-						string HtmlResult = wc.UploadString(URL, myParameters);
+						string URL;
+					if (_location != null)
+					{
+						URL = "http://13.65.148.113/api/Geopositions";
+						using (var wc = new System.Net.WebClient())
+						{
+							Geoposition geo = new Geoposition
+							{
+								driver = Convert.ToInt32(login.Text),
+								lattitude = _location.Latitude.ToString(),
+								longitude = _location.Longitude.ToString()
+							};
+							var json = JsonConvert.SerializeObject(geo);
+							string myParameters = json;
+							wc.Headers["Content-Type"] = "application/json";
+							wc.UploadString(URL, myParameters);
+						}
 					}
-					
+					else
+					{
+						AlertDialog.Builder alert = new AlertDialog.Builder(this);
+						alert.SetTitle("Проблемы с подключением");
+						alert.SetMessage("Не удается получить местоположение");
+						alert.SetPositiveButton("ОК", (senderAlert, args) =>
+						{
+						});
+
+						RunOnUiThread(() =>
+						{
+							alert.Show();
+							RunOnUiThread(() => progressDialog.Hide());
+						});
+					}
 					URL = "http://13.65.148.113/api/Driver/" + login.Text;
 
 					using (var webClient = new System.Net.WebClient())
@@ -87,11 +96,11 @@ namespace smilik
 
 
 				}
-				catch
+				catch(Exception e)
 				{
 					AlertDialog.Builder alert = new AlertDialog.Builder(this);
 					alert.SetTitle("Проблемы с подключением");
-					alert.SetMessage("Для правильной работы приложения необходимо включить геолокацию и доступ в интернет");
+					alert.SetMessage(e.ToString());
 					alert.SetPositiveButton("ОК", (senderAlert, args) =>
 					{
 					});
@@ -102,9 +111,6 @@ namespace smilik
 						RunOnUiThread(() => progressDialog.Hide());
 					});
 				}
-
-
-					// Now parse with JSON.Net
 			};
 		}
 	}

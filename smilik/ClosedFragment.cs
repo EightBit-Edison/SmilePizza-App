@@ -53,27 +53,7 @@ namespace smilik
 			{
 				try
 				{
-					var locator = CrossGeolocator.Current;
-					locator.DesiredAccuracy = 50;
-					var gps = locator.GetPositionAsync(timeoutMilliseconds: 15000);
-					gps.Wait();
-					var position = gps.Result;
-					string URL = "http://13.65.148.113/api/Geopositions";
-					using (var wc = new System.Net.WebClient())
-					{
-						Geoposition geo = new Geoposition();
-						//geo.geoid = Guid.NewGuid();
-						geo.driver = Convert.ToInt32(Arguments.GetString("login"));
-						geo.lattitude = position.Latitude.ToString();
-						geo.longitude = position.Longitude.ToString();
-						var json = JsonConvert.SerializeObject(geo);
-
-						string myParameters = json;
-
-						wc.Headers["Content-Type"] = "application/json";
-						string HtmlResult = wc.UploadString(URL, myParameters);
-
-					}
+					
 					LoadData(view);
 					CheckFree();
 				}
@@ -110,7 +90,7 @@ namespace smilik
 				if (orders != null)
 				{
 					ClosedOrderListAdapter listAdapter = new ClosedOrderListAdapter(this, orders);
-					if (listAdapter.Count > 0)
+					if (listAdapter.Count > 4)
 					{
 						// Instantiate the builder and set notification elements:
 						Notification.Builder builder = new Notification.Builder(Activity)
